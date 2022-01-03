@@ -57,6 +57,12 @@ function App() {
     })
       .then(response => {
         // console.log(response);
+        alert("Task Created")
+        let select = document.querySelectorAll('select')
+        let input = document.querySelectorAll('input')
+        select.forEach((item) => item.value = '')
+        input.forEach((item) => item.value = '')
+        document.querySelector('textarea').value = ''
       })
       .catch((error) => {
         console.log(error);
@@ -124,7 +130,9 @@ function App() {
         <Taskform data={tasks} users={users} onAddData={addTask} />
         <h5 className='my-3 border-bottom pb-2'>Task List</h5>
         {/* <Tools /> */}
-        <Tasklist taskList={tasks} users={users} delTask={delTask} updateData={updTask} />
+        <div className="overflow-auto">
+          <Tasklist taskList={tasks} users={users} delTask={delTask} updateData={updTask} />
+        </div>
       </div>
 
 

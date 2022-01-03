@@ -11,8 +11,6 @@ export default function Tasklist(props) {
     const [show, setShow] = useState(false);
     const [data, setData] = useState(task)
     // console.log(data);
-    let date = () => (data.created_on ? (data.created_on).slice(10) : null);
-    let time = () => (data.created_on ? (data.created_on).slice(-8) : null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(s);
@@ -32,39 +30,40 @@ export default function Tasklist(props) {
     }
 
     return (
-        <div>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Message</th>
-                        <th scope="col">Assign To</th>
-                        <th scope="col">Due Date</th>
-                        <th scope="col">Created On</th>
-                        <th scope="col">Priority</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.taskList.map((ele, i) => (
-                        <tr key={i}>
-                            <th scope="row">{i}</th>
-                            <td>{ele.message}</td>
-                            <td>{ele.assigned_name}</td>
-                            <td><Moment format="DD-MM-YYYY HH:mm:ss">{ele.due_date}</Moment></td>
-                            <td><Moment format="DD-MM-YYYY HH:mm:ss">{ele.created_on}</Moment></td>
-                            <td>{ele.priority === "1" ? "Low" : ele.priority === "2" ? "Medium" : ele.priority === "3" ? "High" : null}</td>
-                            <td>
-                                <Button size="sm" className='px-3' variant="primary" onClick={() => { handleShow(s); setData(ele) }}>
-                                    Edit
-                                </Button>
-                                <button className='btn btn-sm btn-danger' onClick={() => window.confirm("Delete ?") ? props.delTask(ele.id) : null}>Delete</button>
-                            </td>
+        <div id='table-div'>
+            <div className="table-div">
+                <table className="table table-striped" style={{ minWidth: "500px", width: "100%" }}>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Message</th>
+                            <th scope="col">Assign To</th>
+                            <th scope="col">Due Date</th>
+                            <th scope="col">Created On</th>
+                            <th scope="col">Priority</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody>
+                        {props.taskList.map((ele, i) => (
+                            <tr key={i}>
+                                <th scope="row">{i}</th>
+                                <td>{ele.message}</td>
+                                <td>{ele.assigned_name}</td>
+                                <td><Moment format="DD-MM-YYYY HH:mm:ss">{ele.due_date}</Moment></td>
+                                <td><Moment format="DD-MM-YYYY HH:mm:ss">{ele.created_on}</Moment></td>
+                                <td>{ele.priority === "1" ? "Low" : ele.priority === "2" ? "Medium" : ele.priority === "3" ? "High" : null}</td>
+                                <td>
+                                    <Button size="sm" className='px-3' variant="primary" onClick={() => { handleShow(s); setData(ele) }}>
+                                        Edit
+                                    </Button>
+                                    <button className='btn btn-sm btn-danger' onClick={() => window.confirm("Delete ?") ? props.delTask(ele.id) : null}>Delete</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             <Modal show={show} size="lg" onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
@@ -76,7 +75,7 @@ export default function Tasklist(props) {
                     </div>
 
                     {/* assign to */}
-                    <div className="mb-3 col-sm-3">
+                    <div className="mb-3 col-md-3 col-sm-6">
                         <label htmlFor="assign" className="form-label">Assign To</label>
                         <select className='form-control form-select' id="assign" onChange={onAssignChange}>
                             <option value="">Select</option>
@@ -87,7 +86,7 @@ export default function Tasklist(props) {
                     </div>
 
                     {/* priority */}
-                    <div className="mb-3 col-sm-3">
+                    <div className="mb-3 col-md-3 col-sm-6">
                         <label htmlFor="priority" className="form-label">Priority</label>
                         <select className='form-control form-select' onChange={(e) => changeHandler(e.target.value, 'priority')} id="priority">
                             <option value="">Select</option>
@@ -98,23 +97,24 @@ export default function Tasklist(props) {
                     </div>
 
                     {/* date */}
-                    <div className="mb-3 col-sm-3">
+                    <div className="mb-3 col-md-3 col-sm-6">
                         <label htmlFor="date" className="form-label">Date</label>
                         <input type="date" className="form-control" id='date' onChange={datetime} />
                     </div>
 
-                    <div className="mb-3 col-sm-3">
+                    <div className="mb-3 col-md-3 col-sm-6">
                         <label htmlFor="time" className="form-label">Time</label>
                         <input type="time" step="1" id='time' className="form-control" onChange={datetime} />
                     </div></Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => { props.updateData(data) }}>
+                    <Button variant="primary" onClick={() => { props.updateData(data); handleClose(s) }}>
                         Update
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-
         </div >
     )
 }
