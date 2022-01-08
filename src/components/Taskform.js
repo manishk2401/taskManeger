@@ -62,7 +62,7 @@ export default function Taskform(props) {
                 <label htmlFor="time" className="form-label">Time</label>
                 <input type="time" step="1" id='time' className="form-control" onChange={datetime} />
             </div>
-            <button type="submit" className=" col-md-2 btn btn-primary" style={{ height: "fit-content", marginTop: "30px" }} onClick={() => props.onAddData(data)}>Add Task</button>
+            <button type="submit" className=" col-md-2 btn btn-primary" style={{ height: "fit-content", marginTop: "30px" }} onClick={() => { data.message && data.assigned_to && data.priority && data.due_date ? props.onAddData(data) : alert('All Fields are Mandatory') }}>Add Task</button>
         </div >
     )
 }
